@@ -1,2 +1,3 @@
 ;;repofile
-fetch=fetch.py
+# Syntax: [name]=[filename]=[version]=[path]
+fetch=fetch.py=1.0=usr/bin/
