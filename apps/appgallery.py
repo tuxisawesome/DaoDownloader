@@ -1,5 +1,5 @@
-#1.0
-v = 1.0
+#1.1
+v = 1.1
 repo_root = "https://raw.githubusercontent.com/tuxisawesome/DaoDownloader/refs/heads/main/"
 
 def init(drivers,drivernames,configmgr,drivermgr,kernel):
@@ -11,7 +11,7 @@ def init(drivers,drivernames,configmgr,drivermgr,kernel):
 
 
     display.printline("AppGallery " + str(v))
-
+    
 
     if argv == "-R" or argv == "-r":
         display.printline("!!! REMOVAL MODE !!!")
@@ -69,6 +69,24 @@ def download_file(website,directory,filename,net,kernel):
         file.write(response_content)
         file.close()
     return 0
+
+def install(app,website_root,net,sysctl,kernel,display,removal=False):
+    response_code,response_data = net.get_web_data(website_root + "apps.txt",kernel)
+    if response_code == -255:
+        return -255
+    if response_code == -1:
+        return -1
+    
+    apps,appnames,vers,path = read_repofile(str(response_data))
+    if app not in appnames:
+        return -404
+    directory = path[appnames.index(app)]
+    if not removal:
+        install_app(website_root,apps,appnames,app,directory,display,net,kernel)
+        return 0
+    else:
+        sysctl.rmfile(directory + apps[appnames.index(app)])
+        return 0    
 
 
 def read_repofile(file):
