@@ -1,0 +1,4 @@
+;;repofile
+# Syntax: [name]=[filename]=[version]=[path]
+kernel=kernel.py=4.3=kernel.py
+fsck=fsck.py=4.3=sbin/fsck.py

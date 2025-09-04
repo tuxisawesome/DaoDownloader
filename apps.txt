@@ -1,7 +1,7 @@
 ;;repofile
 # Syntax: [name]=[filename]=[version]=[path]
-fetch=fetch.py=1.2=usr/bin/
-bc=bc.py=1.0=usr/bin/
-ed=ed.py=1.1=usr/bin/
-python=python.py=1.0=usr/bin/
-appgallery=appgallery.py=1.1=usr/bin/
+fetch=fetch.py=1.2=usr/bin/fetch.py
+bc=bc.py=1.0=usr/bin/bc.py
+ed=ed.py=1.1=usr/bin/ed.py
+python=python.py=1.0=usr/bin/python.py
+appgallery=appgallery.py=1.1=usr/bin/appgallery.py
