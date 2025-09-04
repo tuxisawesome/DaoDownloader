@@ -1,4 +1,17 @@
-#1.0
+#1.1
 def init(drivers,drivernames,configmgr,drivermgr,kernel):
     display = drivers[drivernames.index("display")]
-    display.printline("WalterOS Fetch works!")
+    display.printline("WalterOS")
+    rows,columns = display.getdimmentions()
+    net = True
+    try:
+        import requests
+        import socket
+    except:
+        net = False
+    display.printline("Display size: " + rows + "x" + columns)
+    if net:
+        display.printline("Network is enabled")
+    else:
+        display.printline("Network is disabled")
+    display.printline("Kernel build: " + kernel.build)
