@@ -1,4 +1,4 @@
-#1.1
+#1.11
 def init(drivers,drivernames,configmgr,drivermgr,kernel):
     display = drivers[drivernames.index("display")]
     display.printline("WalterOS")
@@ -9,7 +9,7 @@ def init(drivers,drivernames,configmgr,drivermgr,kernel):
         import socket
     except:
         net = False
-    display.printline("Display size: " + rows + "x" + columns)
+    display.printline("Display size: " + str(rows) + "x" + str(columns))
     if net:
         display.printline("Network is enabled")
     else:

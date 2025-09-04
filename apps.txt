@@ -1,6 +1,6 @@
 ;;repofile
 # Syntax: [name]=[filename]=[version]=[path]
-fetch=fetch.py=1.1=usr/bin/
+fetch=fetch.py=1.11=usr/bin/
 bc=bc.py=1.0=usr/bin/
 ed=ed.py=1.1=usr/bin/
 python=python.py=1.0=usr/bin/
