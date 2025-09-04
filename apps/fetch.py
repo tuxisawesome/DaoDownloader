@@ -1,4 +1,4 @@
-#1.11
+#1.2
 def init(drivers,drivernames,configmgr,drivermgr,kernel):
     display = drivers[drivernames.index("display")]
     display.printline("WalterOS")
