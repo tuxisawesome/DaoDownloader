@@ -139,7 +139,7 @@ def sync_apps(display,net,sysctl,kernel):
             for appe in apps:
                 if appe in sysctl.dir(paths):
                     with open(paths + appe, "r") as txt:
-                        if float(txt.readlines()[0][1:]) <= float(vers[apps.index(appe)]):
+                        if float(txt.readlines()[0][1:]) >= float(vers[apps.index(appe)]):
                             continue
                         txt.close()
                     directory = path[apps.index(appe)]
