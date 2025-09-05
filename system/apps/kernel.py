@@ -1,5 +1,5 @@
-#4.3
-bd="4.3" # Build number
+#4.2
+bd="4.2" # Build number
 
 
 
@@ -141,7 +141,7 @@ class kernel:
 
     def reload_env():
         good_modules = ["sys","requests","certifi","charset_normalizer","idna","urllib3","socket","encodings","__future__","collections","json","encodings.idna","idna","logging","re","typing","warnings","zlib","contextlib","http","email","random","datetime","urllib","functools","math","types","ipaddress","calendar","base64","binascii","string","quopri","enum","hashlib","hmac","select","selectors","ssl","zstandard","queue","threading","importlib","csv","pathlib","zipfile","operator","textwrap","copy","unicodedata","dis","inspect","platform","mimetypes","tempfile","weakref","atexit","errno","array","locale","fnmatch","ntpath","opcode","stringprep",
-                        "decimal"] # Add decimal to good_modules list
+                        "decimal"]
 
         s = drivermgr.basicload("sys")
         x = s.modules
