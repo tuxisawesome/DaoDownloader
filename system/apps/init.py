@@ -1,4 +1,4 @@
-#2.1
+#2.2
 import sys
 
 def init(display, verbosedrivers,configmgr,drivermgr,drivers,drivernames,kernel):
@@ -29,9 +29,11 @@ def init(display, verbosedrivers,configmgr,drivermgr,drivers,drivernames,kernel)
         if verbosedrivers:
             display.printline("**  Executing startup task " + progx[0] + " from " + y)
         try:
-            drv.init(drivers, drivernames, configmgr, drivermgr,kernel)
+            execute_drv(drv,drivers,drivernames,configmgr,drivermgr,kernel)
         except:
-            kernel.panic("The startup task has reached a critical error.")
-    
-    
+            kernel.panic("The startup task has reached a critical error.")    
 
+def execute_drv(drv,drivers,drivernames,configmgr,drivermgr,kernel):
+    x = drv.init(drivers, drivernames, configmgr, drivermgr,kernel)
+    if x == -1:
+        execute_drv(drv,drivers,drivernames,configmgr,drivermgr,kernel)

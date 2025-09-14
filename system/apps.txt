@@ -2,5 +2,5 @@
 # Syntax: [name]=[filename]=[version]=[path]
 kernel=kernel.py=4.2=./kernel.py
 fsck=fsck.py=2.1=sbin/fsck.py
-init=init.py=2.1=sbin/init.py
+init=init.py=2.2=sbin/init.py
 packagekit=lib-default-packagekit.py=1.3=lib/default/packagekit.py
