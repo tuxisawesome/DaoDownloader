@@ -1,5 +1,5 @@
-#1.3
-v = 1.3
+#1.4
+v = 1.4
 repo_root = "https://raw.githubusercontent.com/tuxisawesome/DaoDownloader/refs/heads/main/"
 
 def init(drivers,drivernames,configmgr,drivermgr,kernel):
@@ -53,7 +53,7 @@ def init(drivers,drivernames,configmgr,drivermgr,kernel):
     
     directory = path[appnames.index(app)]
     if not removal_mode:
-        packagekit.install_app(website_root,apps,appnames,app,directory,display,net,kernel)
+        packagekit.install_app(website_root,apps,appnames,app,directory,display,net,kernel,sysctl,True)
     else:
         sysctl.rmfile(directory)
         display.printline("Application Removed.")

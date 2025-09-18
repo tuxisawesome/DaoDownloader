@@ -1,4 +1,4 @@
-#1.3
+#1.4
 class configuration:
     repo_root = "https://raw.githubusercontent.com/tuxisawesome/DaoDownloader/refs/heads/main/"
 
@@ -7,7 +7,7 @@ def init(driver,drivernames,configmgr,drivermgr,kernel):
     pass
 
 
-def download_file(website,directoryfile,net,kernel):
+def download_file(website,directoryfile,net,kernel,sys,createdirectory=False):
     if not website.startswith("http:") and not website.startswith("https:"):
         return -2
     response_code, response_content = net.get_web_data(website,kernel)
@@ -17,14 +17,21 @@ def download_file(website,directoryfile,net,kernel):
         elif response_code == 404:
             return 404
         return -1
+    directory = ""
+    p = directoryfile.split("/")[:-1]
+    for name in p: directory = directory + name + "/"
+    x = sys.dir(directory) # Check if directory exists
+    if x == 1:
+        # Create directory
+        sys.makedirs(directory)
     with open(directoryfile, "wb") as file:
         file.write(response_content)
         file.close()
     return 0
 
 
-def install_app(website_root,apps,appnames,app,directory,display,net,kernel):
-    x = download_file(website_root + "apps/" + apps[appnames.index(app)], directory,net,kernel)
+def install_app(website_root,apps,appnames,app,directory,display,net,kernel,sys,createdirectory=False):
+    x = download_file(website_root + "apps/" + apps[appnames.index(app)], directory,net,kernel,sys,createdirectory)
     if x == 404:
         display.printline("This application does not exist, or the server is down.")
         return
@@ -56,7 +63,7 @@ def system_update_backend(website_root,net,sysctl,kernel,display):
                     if appnames[apps.index(appe)] == "kernel":
                         display.printline("** Installing new kernel to replace kernel version " + kernel.build)
                         display.printline("** Please make sure to restart in order for the new kernel to take effect.")
-                    install_app(website_root,apps,appnames,appnames[apps.index(appe)],directory,display,net,kernel)
+                    install_app(website_root,apps,appnames,appnames[apps.index(appe)],directory,display,net,kernel,sysctl,True)
 
 def remove_trailing_filename(path=""):
     x = path.split("/")
@@ -90,7 +97,7 @@ def sync_apps(display,net,sysctl,kernel):
                         txt.close()
                     
                     directory = path[apps.index(appe)]
-                    install_app(website_root,apps,appnames,appnames[apps.index(appe)],directory,display,net,kernel)
+                    install_app(website_root,apps,appnames,appnames[apps.index(appe)],directory,display,net,kernel,sysctl,False)
                     found_updates = True
 
 
@@ -128,7 +135,7 @@ def install(app,website_root,net,sysctl,kernel,display,removal=False):
         return -404
     directory = path[appnames.index(app)]
     if not removal:
-        install_app(website_root,apps,appnames,app,directory,display,net,kernel)
+        install_app(website_root,apps,appnames,app,directory,display,net,kernel,sysctl,False)
         return 0
     else:
         sysctl.rmfile(directory + apps[appnames.index(app)])
