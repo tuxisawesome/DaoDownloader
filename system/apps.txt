@@ -3,7 +3,7 @@
 kernel=kernel.py=4.3=./kernel.py
 fsck=fsck.py=2.2=sbin/fsck.py
 init=init.py=2.3=sbin/init.py
-packagekit=lib-default-packagekit.py=1.4=lib/default/packagekit.py
+# packagekit=lib-default-packagekit.py=1.4=lib/default/packagekit.py
 bootsign=bin-bootsign.py=1.1=bin/bootsign.py
 clear=bin-clear.py=1.1=bin/clear.py
 echo=bin-echo.py=1.1=bin/echo.py
