@@ -4,3 +4,11 @@ kernel=kernel.py=4.3=./kernel.py
 fsck=fsck.py=2.2=sbin/fsck.py
 init=init.py=2.3=sbin/init.py
 packagekit=lib-default-packagekit.py=1.4=lib/default/packagekit.py
+bootsign=bin-bootsign.py=1.1=bin/bootsign.py
+clear=bin-clear.py=1.1=bin/clear.py
+echo=bin-echo.py=1.1=bin/echo.py
+ls=bin-ls.py=1.1=bin/ls.py
+modprobe=bin-modprobe.py=1.1=bin/modprobe.py
+sh=bin-sh.py=1.1=bin/sh.py
+sysedit=bin-sysedit.py=1.1=bin/sysedit.py
+uname=bin-uname.py=1.1=bin/uname.py
