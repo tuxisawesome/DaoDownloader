@@ -7,3 +7,4 @@ python=python.py=1.0=usr/bin/python.py
 appgallery=appgallery.py=1.3=usr/bin/appgallery.py
 sysctl=sysctl.py=1.0=usr/bin/sysctl.py
 wget=wget.py=1.1=usr/bin/wget.py
+webserve=webserve.py=1.1=usr/bin/webserve.py
