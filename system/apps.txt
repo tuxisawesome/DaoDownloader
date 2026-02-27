@@ -2,7 +2,7 @@
 # Syntax: [name]=[filename]=[version]=[path]=[originalfilename]
 kernel=kernel.py=4.4=./kernel.py=kernel.py
 fsck=fsck.py=2.3=sbin/fsck.py=fsck.py
-init=init.py=2.4=sbin/init.py=init.py
+init=init.py=2.0=sbin/init.py=init.py
 packagekit=LibDefaultPackagekit.py=1.7=lib/default/packagekit.py=packagekit.py
 bootsign=BinBootsign.py=1.1=bin/bootsign.py=bootsign.py
 clear=BinClear.py=1.1=bin/clear.py=clear.py
