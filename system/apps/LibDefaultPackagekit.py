@@ -1,4 +1,4 @@
-#1.5
+#1.6
 class configuration:
     repo_root = "https://raw.githubusercontent.com/tuxisawesome/DaoDownloader/refs/heads/main/"
 
@@ -50,20 +50,25 @@ def system_update_backend(website_root,net,sysctl,kernel,display):
         return -255
     if response_code == -1:
         return -1
-    apps,appnames,vers,path = read_repofile(str(response_data))
+    apps,appnames,vers,path,originalfilenames = read_repofile(str(response_data))
+    print(apps)
+    print(appnames)
+    print(vers)
+    print(path)
+    print(originalfilenames)
     for paths in path:
             pathsx = remove_trailing_filename(paths)
-            for appe in apps:
+            for appe in originalfilenames:
                 if appe in sysctl.dir(pathsx):
                     with open(paths, "r") as txt:
-                        if float(txt.readlines()[0][1:]) >= float(vers[apps.index(appe)]):
+                        if float(txt.readlines()[0][1:]) >= float(vers[originalfilenames.index(appe)]):
                             continue # The version of the app is the same or greater than the one on the server
                         txt.close()
-                    directory = path[apps.index(appe)]
-                    if appnames[apps.index(appe)] == "kernel":
+                    directory = path[originalfilenames.index(appe)]
+                    if appnames[originalfilenames.index(appe)] == "kernel":
                         display.printline("** Installing new kernel to replace kernel version " + kernel.build)
                         display.printline("** Please make sure to restart in order for the new kernel to take effect.")
-                    install_app(website_root,apps,appnames,appnames[apps.index(appe)],directory,display,net,kernel,sysctl,True)
+                    install_app(website_root,apps,appnames,appnames[originalfilenames.index(appe)],directory,display,net,kernel,sysctl,True)
 
 def remove_trailing_filename(path=""):
     x = path.split("/")
@@ -85,19 +90,19 @@ def sync_apps(display,net,sysctl,kernel):
     if response_code == -1:
         display.printline("Server down.")
         return
-    apps,appnames,vers,path = read_repofile(str(response_data))
+    apps,appnames,vers,path,originalfilenames = read_repofile(str(response_data))
     found_updates = False
     for paths in path:
             pathsx = remove_trailing_filename(paths)
-            for appe in apps:
+            for appe in originalfilenames:
                 if appe in sysctl.dir(pathsx):
                     with open(pathsx + appe, "r") as txt:
-                        if float(txt.readlines()[0][1:]) >= float(vers[apps.index(appe)]):
+                        if float(txt.readlines()[0][1:]) >= float(vers[originalfilenames.index(appe)]):
                             continue # The version of the app is the same or greater than the one on the server
                         txt.close()
                     
-                    directory = path[apps.index(appe)]
-                    install_app(website_root,apps,appnames,appnames[apps.index(appe)],directory,display,net,kernel,sysctl,False)
+                    directory = path[originalfilenames.index(appe)]
+                    install_app(website_root,apps,appnames,appnames[originalfilenames.index(appe)],directory,display,net,kernel,sysctl,False)
                     found_updates = True
 
 
@@ -108,6 +113,7 @@ def read_repofile(file):
     appnames = []
     vers=[]
     path=[]
+    originalfilenames=[]
     if lines[0].startswith(";;repofile"):
         pass
     else:
@@ -120,7 +126,8 @@ def read_repofile(file):
         apps.append(f[1])
         vers.append(f[2])
         path.append(f[3])
-    return apps,appnames,vers,path
+        originalfilenames.append(f[4])
+    return apps,appnames,vers,path,originalfilenames
 
 
 def install(app,website_root,net,sysctl,kernel,display,removal=False):
@@ -130,7 +137,11 @@ def install(app,website_root,net,sysctl,kernel,display,removal=False):
     if response_code == -1:
         return -1
     
-    apps,appnames,vers,path = read_repofile(str(response_data))
+    apps,appnames,vers,path,originalfilenames = read_repofile(str(response_data))
+    print(apps)
+    print(appnames)
+    print(vers)
+    print(path)
     if app not in appnames:
         return -404
     directory = path[appnames.index(app)]
