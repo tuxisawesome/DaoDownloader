@@ -1,14 +1,21 @@
-#2.2
+#2.3
 def init(drivers,drivernames,configmgr,drivermgr,kernel): #  FSCK - File System ChecK: A basic system integrity checker
     kargs = kernel.args
     for arg in kargs:
         if arg.startswith("nofsck="):
-            return
-    v = 1.0 # Todo: check file hashes
-    sys = drivers[drivernames.index("sys")]
+            if not kernel.sip:
+                return
+            else:
+                continue
+    v = 1.0
     display = drivers[drivernames.index("display")]
     helper = drivers[drivernames.index("helper")]
     display.printline("**  fsck " + str(v))
+    if kernel.sip:
+        display.printline("**  System integrity protection is enabled.")
+    else:
+        display.printline("**  System integrity protection is disabled.")
+        return
     hashdb = configmgr.readconfig("verifiedboot.cfg")
     sid = configmgr.getkeys(hashdb)
     for s in sid:
@@ -26,6 +33,9 @@ def init(drivers,drivernames,configmgr,drivermgr,kernel): #  FSCK - File System 
                 if filehash != configmgr.getvalue(hashdb, s):
                     display.printline("!!! File hash check for " + s + " failed!")
                     kernel.panic("File hash check failed for " + s)
+                else:
+                    if kernel.verbosedrivers:
+                        display.printline("** Check succeeded for " + s)
                 x.close()
                 
 
