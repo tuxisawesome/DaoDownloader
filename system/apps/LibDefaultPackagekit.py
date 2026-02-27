@@ -1,4 +1,4 @@
-#1.6
+#1.7
 class configuration:
     repo_root = "https://raw.githubusercontent.com/tuxisawesome/DaoDownloader/refs/heads/main/"
 
@@ -51,11 +51,6 @@ def system_update_backend(website_root,net,sysctl,kernel,display):
     if response_code == -1:
         return -1
     apps,appnames,vers,path,originalfilenames = read_repofile(str(response_data))
-    print(apps)
-    print(appnames)
-    print(vers)
-    print(path)
-    print(originalfilenames)
     for paths in path:
             pathsx = remove_trailing_filename(paths)
             for appe in originalfilenames:
@@ -138,10 +133,6 @@ def install(app,website_root,net,sysctl,kernel,display,removal=False):
         return -1
     
     apps,appnames,vers,path,originalfilenames = read_repofile(str(response_data))
-    print(apps)
-    print(appnames)
-    print(vers)
-    print(path)
     if app not in appnames:
         return -404
     directory = path[appnames.index(app)]
