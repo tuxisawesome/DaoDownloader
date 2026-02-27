@@ -1,7 +1,7 @@
-#4.3
-bd="4.3" # Build number
+#4.4
+bd="4.4" # Build number
 
-
+GLOBAL_SIP = False
 
 import sys
 
@@ -30,7 +30,6 @@ def main(args):
                     vdrivers = False;continue
         
         kernel.args = args
-        print(kernel.args)
         mods = configmgr.readconfig("modules.cfg",kernel.configpath)
 
         config = configmgr.readconfig("config.cfg",kernel.configpath)
@@ -44,29 +43,32 @@ def main(args):
         else: verbosedrivers = True;kernel.verbosedrivers = True
 
 
-        # First load display module
+        # Loads display module
         try:
             x = configmgr.getvalue(mods, "display")
             y = x.split("/")
             display = drivermgr.load(y[1],y[0])
         except:
-            display = kernel.configuration.modules.display
+            display = kernel.configuration.modules.display # Fallback builtin display driver
         
 
         display.printline("Dao " + ver + " is starting up!")
-        try:
+        try:    # Loads other modules into drivers,drivernames
             drivers,drivernames = load_modules(display,mods,verbosedrivers)
+            kernel.configuration.modules.modules = drivers
+            kernel.configuration.modules.modulenames = drivernames
         except:
-            drivers = kernel.configuration.modules.modules
-            drivernames = kernel.configuration.modules.modulenames
+            drivers = kernel.configuration.modules.modules  # Fallback builtin modules
+            drivernames = kernel.configuration.modules.modulenames # Fallback builtin modulenames
+
         sys.path.insert(1, 'sbin/')
-        try:
+        try:# Load init server
             import init as start
         except:
             kernel.panic("Unable to find init at '/sbin/init")
-        try:
+        try:# Jump to init server, needs a lot of arguments to have the proper environment to execute programs
             display.printline("*   Loading init at /sbin/init")
-            start.init(display,verbosedrivers,configmgr,drivermgr,drivers,drivernames,kernel)
+            start.init(display,verbosedrivers,configmgr,drivermgr,kernel.configuration.modules.modules,kernel.configuration.modules.modulenames,kernel) 
         except:
             kernel.panic("init does not have init function or other error occoured")
         '''
@@ -116,19 +118,26 @@ class kernel:
     configpath="etc/"
     driverpath = "lib/"    
 
+    sip=GLOBAL_SIP # Enables system integrity protection
+
     class configuration:
-        defconfig = ["version=1.0","verbosedrivers=1"]
-        class modules:
+        defconfig = ["version=1.0","verbosedrivers=1"]# Fallback for config.cfg file
+        definitconfig = ["bp=bin/basicprogram"]# Fallback for init.cfg file
+        defaults = {"config.cfg": defconfig,"init.cfg": definitconfig}# Definitions for default files
+        
+        class modules: # Default modules
             class display:
                 def printline(str):
                     print(str)
-            modules = [display]
-            modulenames = ["display"]
+            modules = [display] # Contains a reference to every default module in a list
+            modulenames = ["display"]   # Human-readable name for each module in the list
 
 
 
     verbosedrivers=False
-    def panic(message="Unknown"):
+    def panic(message="Unknown"):   # Executes a kernel panic, halting code execution
+        if "panic=false" in kernel.args:
+            return
         try:
             print("The kernel has reached an unrecoverable error.")
             print("Please force restart the computer.")
@@ -141,7 +150,7 @@ class kernel:
 
     def reload_env():
         good_modules = ["sys","requests","certifi","charset_normalizer","idna","urllib3","socket","encodings","__future__","collections","json","encodings.idna","idna","logging","re","typing","warnings","zlib","contextlib","http","email","random","datetime","urllib","functools","math","types","ipaddress","calendar","base64","binascii","string","quopri","enum","hashlib","hmac","select","selectors","ssl","zstandard","queue","threading","importlib","csv","pathlib","zipfile","operator","textwrap","copy","unicodedata","dis","inspect","platform","mimetypes","tempfile","weakref","atexit","errno","array","locale","fnmatch","ntpath","opcode","stringprep",
-                        "decimal"]
+                        "decimal","platform"]
 
         s = drivermgr.basicload("sys")
         x = s.modules
@@ -267,8 +276,8 @@ class configmgr:
                         y.append(line.strip("\n"))
                 return y
         except:
-            if file == "config.cfg":
-                return kernel.configuration.defconfig
+            if file in kernel.configuration.defaults.keys():
+                return kernel.configuration.defaults.get(file,None)
             return None
 
     def writeconfig(file, config,path=kernel.configpath):
@@ -348,7 +357,7 @@ class configmgr:
 
 #Drivermgr
 class drivermgr:
-    def load(name, path_in_driverpath):
+    def load(name, path_in_driverpath): # Example: name = "print", path in driverpath = core/
         try:
             sys.path.append(kernel.driverpath + path_in_driverpath)   
         except:
@@ -361,8 +370,9 @@ class drivermgr:
         return x
 
     def defload(name, path):
-        sys.path.append(path)    
-        return __import__(name.strip("\n"))
+        sys.path.append(path + "/") 
+        d = __import__(name.strip("\n"))
+        return d
     
     def basicload(name):
         return __import__(name.strip("\n"))
