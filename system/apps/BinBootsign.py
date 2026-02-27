@@ -1,5 +1,4 @@
 #1.1
-
 def sha256(data: str) -> str:
     """
     Computes the SHA-256 hash of the input data.
