@@ -1,4 +1,4 @@
-#1.1
+#1.2
 def init(drivers, drivernames, configmgr, drivermgr,kernel):
 
 
@@ -11,6 +11,7 @@ def init(drivers, drivernames, configmgr, drivermgr,kernel):
     config = configmgr.readconfig("config.cfg")
     interactive = configmgr.getvalue(config, "interactive")
     display = drivers[drivernames.index("display")]
+    imp = drivers[drivernames.index("input")]
     if interactive == "0": interactive = False 
     else: interactive = True
     kernel_arguments = kernel.args
@@ -19,7 +20,7 @@ def init(drivers, drivernames, configmgr, drivermgr,kernel):
         continues = True
         while continues:
             try:
-                x = drivers[drivernames.index("input")].getinput("$ ")
+                x = imp.getinput("$ ")
                 if x == "": continue
 
                 if x == "exit":
