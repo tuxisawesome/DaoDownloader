@@ -9,7 +9,7 @@ clear=BinClear.py=1.1=bin/clear.py=clear.py
 echo=BinEcho.py=1.1=bin/echo.py=echo.py
 ls=BinLs.py=1.1=bin/ls.py=ls.py
 modprobe=BinModprobe.py=1.1=bin/modprobe.py=modprobe.py
-sh=BinSh.py=1.1=bin/sh.py=sh.py
+sh=BinSh.py=1.2=bin/sh.py=sh.py
 sysedit=BinSysedit.py=1.1=bin/sysedit.py=sysedit.py
 uname=BinUname.py=1.1=bin/uname.py=uname.py
 net-connect=NetConnect.py=1.0=bin/net-connect.py=net-connect.py
