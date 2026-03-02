@@ -1,4 +1,4 @@
-#2.3
+#2.4
 def init(drivers,drivernames,configmgr,drivermgr,kernel): #  FSCK - File System ChecK: A basic system integrity checker
     kargs = kernel.args
     for arg in kargs:
@@ -15,7 +15,6 @@ def init(drivers,drivernames,configmgr,drivermgr,kernel): #  FSCK - File System 
         display.printline("**  System integrity protection is enabled.")
     else:
         display.printline("**  System integrity protection is disabled.")
-        return
     hashdb = configmgr.readconfig("verifiedboot.cfg")
     sid = configmgr.getkeys(hashdb)
     for s in sid:
