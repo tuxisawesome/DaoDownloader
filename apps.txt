@@ -9,3 +9,4 @@ sysctl=sysctl.py=1.0=usr/bin/sysctl.py=sysctl.py
 wget=wget.py=1.1=usr/bin/wget.py=wget.py
 webserve=webserve.py=1.1=usr/bin/webserve.py=webserve.py
 curl=curl.py=1.1=usr/bin/curl.py=curl.py
+bf=bf.py=1.0=usr/bin/bf.py=bf.py
