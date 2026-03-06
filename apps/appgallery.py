@@ -1,5 +1,5 @@
-#1.5
-v = 1.5
+#1.6
+v = 1.6
 repo_root = "https://raw.githubusercontent.com/tuxisawesome/DaoDownloader/refs/heads/main/"
 
 def init(drivers,drivernames,configmgr,drivermgr,kernel):
@@ -88,6 +88,7 @@ def system_update(drivers,drivernames,configmgr,drivermgr,kernel):
 
     x = interactive.getinput("? ")
     if x == 'y' or x == "Y":
+        display.printline("** Starting system update. Do not turn off your device during this process.")
         x = packagekit.system_update_backend(repo_root + "system/",net,sysctl,kernel,display)
         if x == -255:
             display.printline("No internet.")
@@ -95,5 +96,10 @@ def system_update(drivers,drivernames,configmgr,drivermgr,kernel):
             display.printline("Server down.")
         if x == 0:
             display.printline("Please now run 'bootsign' in case any core system files changed.")
+            display.printline("Please restart or run 'env-reload' to properly push changes.")
+            display.printline("System update complete.")
+    else:
+        display.printline("System update cancelled.")
+        display.printline("No changes are made.")
 
 
