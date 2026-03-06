@@ -1,4 +1,4 @@
-#1.7
+#1.8
 class configuration:
     repo_root = "https://raw.githubusercontent.com/tuxisawesome/DaoDownloader/refs/heads/main/"
 
@@ -51,19 +51,22 @@ def system_update_backend(website_root,net,sysctl,kernel,display):
     if response_code == -1:
         return -1
     apps,appnames,vers,path,originalfilenames = read_repofile(str(response_data))
+    found_updates = False
     for paths in path:
             pathsx = remove_trailing_filename(paths)
             for appe in originalfilenames:
                 if appe in sysctl.dir(pathsx):
-                    with open(paths, "r") as txt:
+                    with open(pathsx + appe, "r") as txt:
                         if float(txt.readlines()[0][1:]) >= float(vers[originalfilenames.index(appe)]):
                             continue # The version of the app is the same or greater than the one on the server
                         txt.close()
+                    
                     directory = path[originalfilenames.index(appe)]
                     if appnames[originalfilenames.index(appe)] == "kernel":
                         display.printline("** Installing new kernel to replace kernel version " + kernel.build)
                         display.printline("** Please make sure to restart in order for the new kernel to take effect.")
                     install_app(website_root,apps,appnames,appnames[originalfilenames.index(appe)],directory,display,net,kernel,sysctl,True)
+                    found_updates = True
 
 def remove_trailing_filename(path=""):
     x = path.split("/")
